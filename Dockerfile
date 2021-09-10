@@ -1,19 +1,12 @@
-FROM node:14
-
-# Create app directory
-WORKDIR ./app
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
-COPY . .
-
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+FROM centos:latest
+MAINTAINER mnadir@codingdojo.com
+RUN yum install -y httpd \
+  zip \ 
+ unzip
+ ADD https://www.free-css.com/assets/files/free-css-templates/download/page258/loxury.zip /var/www/html/
+ WORKDIR /var/www/html
+ RUN unzip loxury.zip
+ RUN cp -rvf loxury/*
+ RUN rm -rf loxury loxury.zip
+ CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+ EXPOSE 80
